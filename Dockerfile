@@ -1,17 +1,17 @@
-# Step 1: Use an official PHP image with Apache web server
+# Use the official PHP image with Apache web server pre-installed
 FROM php:8.3-apache
 
-# Step 2: Install standard PHP extensions required for MySQL databases
+# Install the necessary extensions for MySQL database connections
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Step 3: Enable Apache URL rewriting (crucial for clean dashboard routes)
+# Enable Apache mod_rewrite for clean URL handling/routing
 RUN a2enmod rewrite
 
-# Step 4: Copy your local website files directly into the web server directory
-COPY . /var/www/html/
+# FIX: Copy files specifically from inside the Profitlens directory
+COPY ./Profitlens/ /var/www/html/
 
-# Step 5: Adjust permissions so Apache can read and execute your scripts smoothly
+# Set correct permissions so the web server can read the files
 RUN chown -R www-data:www-data /var/www/html
 
-# Step 6: Expose standard web traffic port
+# Tell Render to send external web traffic to port 80
 EXPOSE 80
